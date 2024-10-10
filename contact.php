@@ -2,6 +2,7 @@
 $nombreDiv = "alert alert-danger";//doy a la clase del div este valor
 $datos = [];//array para introducir los datos
 $datosValidos = [];//array de datos válidos
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $validacion = true;//inicio la validación a true
 
