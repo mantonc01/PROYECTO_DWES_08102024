@@ -46,6 +46,15 @@
 							<?php endforeach; ?>
 						</ul>
 					</div>
+				<?php else: ?>
+				<?php if (empty($errores)) : ?>
+					<div class="alert alert-info">
+						<ul>
+							<?php foreach ($datosIntroducidos as $datos) : ?>
+								<li><?php echo $datos; ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
 				<?php endif; ?>
 				<div class="form-group">
 					<div class="col-xs-6">
