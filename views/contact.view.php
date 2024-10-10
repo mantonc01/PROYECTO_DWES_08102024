@@ -38,24 +38,16 @@
 			<hr>
 			<p>Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
 			<form method="post" action="contact.php" class="form-horizontal">
-				<?php if (!empty($errores)) : ?>
-					<div class="alert alert-danger">
+				<?php if (!empty($datos)) : ?>
+					<div class="<?php echo $nombreDiv?>">
 						<ul>
-							<?php foreach ($errores as $error) : ?>
-								<li><?php echo $error; ?></li>
-							<?php endforeach; ?>
-						</ul>
-					</div>
-				<?php else: ?>
-				<?php if (empty($errores)) : ?>
-					<div class="alert alert-info">
-						<ul>
-							<?php foreach ($datosIntroducidos as $datos) : ?>
-								<li><?php echo $datos; ?></li>
+							<?php foreach ($datos as $dat) : ?>
+								<li><?php echo $dat; ?></li>
 							<?php endforeach; ?>
 						</ul>
 					</div>
 				<?php endif; ?>
+				
 				<div class="form-group">
 					<div class="col-xs-6">
 						<label class="label-control">First Name</label>
@@ -81,7 +73,7 @@
 				<div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-control">Message</label>
-						<textarea class="form-control" name="textArea" value="<?php if (isset($textArea)) echo $textArea ?>"></textarea>
+						<textarea class="form-control" name="textArea"><?php if (isset($textArea)) echo $textArea ?></textarea>
 						<button class="pull-right btn btn-lg sr-button">SEND</button>
 					</div>
 				</div>
