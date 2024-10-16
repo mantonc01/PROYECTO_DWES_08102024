@@ -55,4 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $textArea = '';
     }
 }
-require 'views/contact.view.php';
+require_once 'views/utils/utils.php';
+require_once 'views/contact.view.php';
+?>

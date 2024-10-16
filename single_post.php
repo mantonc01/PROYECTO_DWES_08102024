@@ -1,5 +1,4 @@
 <?php
-require 'views/single_post.view.php';
-//realizando cambios para probar que solo hay una rama principal
-// CAMBIO EL NOMBRE DEL GIT
+require_once 'views/utils/utils.php';
+require_once 'views/single_post.view.php';
 ?>
