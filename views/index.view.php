@@ -41,28 +41,17 @@
       <!-- Navigation Table Content -->
         <div class="tab-content">
 
-        <?php 
-        // $category1='category1';
-        // $category2='category2';
-        // $category3='category3';
-        // $active1='active';
-        // $active2='';
-        // $active3='';
-        ?>
-        <!-- First Category pictures -->         
-        <!-- <div id="category1" class="tab-pane active" > -->
+        <!-- First Category pictures -->                 
         <div id="category1" class="tab-pane active" >
         <?php include __DIR__.'/partials/imagegallery.part.php'?>
         <!-- End of First category pictures -->
 
         <!--second category pictures -->
-        <!-- <div id="category2" class="tab-pane" > -->
         <div id="category2" class="tab-pane " >
         <?php include __DIR__.'/partials/imagegallery.part.php'?>
         <!-- End of second category pictures -->
 
         <!-- Third Category Pictures -->
-        <!-- <div id="category3" class="tab-pane" > -->
         <div id="category3" class="tab-pane " >
         <?php include __DIR__.'/partials/imagegallery.part.php'?>
         <!-- Third Category Pictures -->
