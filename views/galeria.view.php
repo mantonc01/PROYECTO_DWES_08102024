@@ -1,7 +1,7 @@
-<?php include __DIR__ . '/partials/inicio-doc.part.php' ?>
+<?php include_once __DIR__ . '/partials/inicio-doc.part.php' ?>
 
 <!-- Navigation Bar -->
-<?php include __DIR__ . '/partials/nav-doc.part.php' ?>
+<?php include_once __DIR__ . '/partials/nav-doc.part.php' ?>
 
 <!-- End of Navigation Bar -->
 
@@ -26,7 +26,7 @@
 					<?php else: ?>
 						<ul>
 							<?php foreach ($errores as $error): ?>
-								<li><?= $error?></li>
+								<li><?= $error ?></li>
 							<?php endforeach; ?>
 						</ul>
 					<?php endif; ?>
@@ -48,7 +48,39 @@
 				</div>
 			</form>
 			<hr class="divider">
+
 			<div class="imagenes_galeria">
+				<!-- /////////////////////////////// -->
+				 <!-- Esta parte queda pendiente para corregir el poder traernos las imágenes -->
+				<!-- <--Pegamos aquí el código de la tabla bootstrap->  -->
+				<table class="table"> 
+					<thead> 
+						<tr> 
+							<th scope="col">#</th> 
+							<th scope="col">Imagen</th> 
+							<th scope="col">Visualizaciones</th> 
+							<th scope="col">Likes</th> 
+							<th scope="col">Descargas</th> 
+						</tr> 
+					</thead> 
+					<?php foreach ($imagenes as $imagen):?> 
+						<tr> 
+							<th scope="row"><?=$imagen->getId()?></th> 
+							<td> 
+								<img src="<?=$imagen->getUrlGallery() ?>" 
+								alt="<?=$imagen->getDescripcion() ?>" 
+								title="<?=$imagen->getDescripcion() ?>" 
+								width="100px"
+								>
+							</td>
+							<td><?=$imagen->getNumVisualizaciones()?></td> 
+							<td><?=$imagen->getNumlikes()?></td> 
+							<td><?=$imagen->getNumDownloads()?></td> 
+						</tr> 
+					<?php endforeach; ?> 
+						</tbody> 
+					</table>
+				<!-- ///////////////////////////////// -->
 
 			</div>
 		</div>

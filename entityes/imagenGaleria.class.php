@@ -26,13 +26,21 @@ class ImagenGaleria
      */
     private $numDownloads;
 
-    public function __construct(string $nombre, string $descripcion, int $numVisualizaciones = 0, int $numLikes = 0, int $numDownloads = 0)
+    /**
+     * @var int
+     */
+    private $id;
+
+
+
+    public function __construct(string $nombre='', string $descripcion='', int $numVisualizaciones = 0, int $numLikes = 0, int $numDownloads = 0)
     { //se le pasa el nombre y la descripción, el resto por defecto es 0
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->numVisualizaciones = $numVisualizaciones;
         $this->numLikes = $numLikes;
         $this->numDownloads = $numDownloads;
+        $this->id=null;
     }
 
     /**
@@ -166,6 +174,30 @@ class ImagenGaleria
     public function setNumDownloads(int $numDownloads)
     {
         $this->numDownloads = $numDownloads;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */ 
+    public function setId(int $id)
+    {
+        $this->id = $id;
 
         return $this;
     }

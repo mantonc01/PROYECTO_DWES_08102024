@@ -2,6 +2,9 @@
 //probar con esta dirección
 // require_once __DIR__ . 'exceptions/fileException.class.php';
 //o con esta
+// require_once __DIR__ . '/../../exceptions/fileException.class.php';
+
+//este require se ejecuta solo iniciando desde galeria.php
 require_once __DIR__ . '../../exceptions/fileException.class.php';
 class File
 {
@@ -75,13 +78,22 @@ class File
 
         //Comprabomos que la ruto no se correspondo con un fichero que ya existo 
         // Comprobamos que el archivo no exista en la ruta destino
-        if (is_file($ruta)) {
+        $contador = 1; //contador para cambio propuesto como hace windows
+        //si existe el archivo en la ruta hago los cambios en su nombre
+        while (is_file($ruta)) {
             //no sobreescrito, sino que genera uno nuevo añadiendo la fecha y hora actual 
             //esta parte hay que cambiarla para que si existe el nombre de archivo
             //genere un nuevo nombre con un numero como hace windows
-            $fechaActual = date('dmYHis');
-            $this->fileName = $this->fileName . '_' . $fechaActual;
+            // $fechaActual = date('dmYHis');
+            // $this->fileName = $this->fileName . '_' . $fechaActual;
+            /////////////////////////////////////////////////////////////////////////
+            //parte cambiada según lo propuesto
+            $nombreSinExtension = pathinfo($this->file['name'], PATHINFO_FILENAME);
+            $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
+            $this->fileName = $nombreSinExtension . '_' . $contador . '.' . $extension;
+
             $ruta = $rutaDestino . $this->fileName; //Actualizo la variable ruta con el nueva nombre 
+            $contador++; //contador para agregar al nombre
         }
 
         //mueve el fichero subido del directorio temporalíviene definido en php.ini) 
@@ -91,21 +103,22 @@ class File
         }
     }
 
-    /**
-     * @param 
-     */
+    // Método para copiar un archivo de una ruta de origen a otra de destino// Método para copiar un archivo de una ruta de origen a otra de destino
     public function copyFile(string $rutaOrigen, string $rutaDestino)
     {
         $origen = $rutaOrigen . $this->fileName;
         $destino = $rutaDestino . $this->fileName;
 
-        if (is_file($origen) === false) {
+        // Comprobamos si el archivo de origen existe
+        if (!is_file($origen)) {
             throw new FileException("No existe el fichero $origen que intentas copiar");
         }
-        if (is_file($destino) === true) {
+        // Verificamos si el archivo de destino ya existe
+        if (is_file($destino)) {
             throw new FileException('El fichero $destino ya existe y no se puede sobreeescribilo');
         }
-        if (copy($origen, $destino) === false) {
+        // Intentamos copiar el archivo
+        if (!copy($origen, $destino)) {
             throw new FileException('No se ha podido copiar el fichero $origen a $ destino');
         }
     }

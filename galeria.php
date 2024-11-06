@@ -1,33 +1,87 @@
 <?php
+
+// use FTP\Connection;
+
 require_once 'views/utils/utils.php';
 require_once 'entityes/file.class.php';
 require_once 'entityes/imagenGaleria.class.php';
 require_once 'exceptions/fileException.class.php';
+require_once 'entityes/connection.class.php';
+// require_once 'views/galeria.view.php';
+require_once 'entityes/queryBuilder.class.php';
 
 //array para guardar los mensajes de los errores
 $errores = [];
 $descripcion = '';
 $mensaje = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $descripcion = trim(htmlspecialchars($_POST['descripcion']));
+try {
 
+    $connection = Connection::make();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        // Sanitizamos la descripción
+        $descripcion = trim(htmlspecialchars($_POST['descripcion'] ?? ''));
+
+        // Tipos de archivos permitidos (MIME)
         $tiposAceptados = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
-        //tipología MIME 'tipodearchivo/extension'
 
+        // Creamos la instancia de la clase File
         $imagen = new File('imagen', $tiposAceptados);
         //el parametro fileName es 'imagen' porque así lo indicamos en
         //el formulario (type='file' name='imagen')
 
-
+        // Guardamos la imagen en la galería
         $imagen->saveUploadFile(ImagenGaleria::RUTA_IMAGENES_GALLERY);
-        $imagen->copyFile(ImagenGaleria::RUTA_IMAGENES_GALLERY,ImagenGaleria::RUTA_IMAGENES_PORTFOLIO);
-        $mensaje = 'Datos enviados';
-    } catch (FileException $exception) {
-        $errores[] = $exception->getMessage();
-        //guardo en un array los errores
-    }
-}
 
+        // Copiamos la imagen al portfolio.
+        if (method_exists($imagen, 'copyFile')) { //si el metodo existe
+            $imagen->copyFile(ImagenGaleria::RUTA_IMAGENES_GALLERY, ImagenGaleria::RUTA_IMAGENES_PORTFOLIO);
+        } else {
+            throw new FileException('El método copyFile no está implementado en la clase File');
+        }
+
+        // Mensaje de éxito
+        $mensaje = 'Datos enviados';
+
+        //Si llega hasta aqui, es que no ha habido errores.
+        /////////////////////////////////////////////////////////////
+        // $connection = Connection::make(); ////////////////////////////
+
+        ///////////////////////////////////////////////////////////////
+        $sql = "INSERT INTO imagenes (nombre,descripcion) VALUES (:nombre,:descripcion)";
+        $pdoStatement = $connection->prepare($sql);
+        $parametersStatementArray = [':nombre' => $imagen->getFileName(), ':descripcion' => $descripcion];
+        //Lanzamos la sentencia y vemos si se ha ejecutado correctamente.
+        $response = $pdoStatement->execute($parametersStatementArray);
+
+        if ($response === false) {
+            $errores[] = 'No se ha podido guardar la imagen en la base de datos.';
+        } else {
+            $descripcion = '';
+            $mensaje = 'Imagen guardada';
+        }
+
+        $querySql = 'Select * from imagenes';
+        $queryStatement = $connection->query($querySql);
+
+        while ($row = $queryStatement->fetch()) {
+            //$row= ['id'=>1,'nombre'=>'asd','descripcion'=>'asd']
+            //numVisualizaciones=>0,numLikes=>0,numDownloads=>0,
+            // echo "Producto".$row
+        }
+    }
+
+    $queryBuilder = new QueryBuilder($connection);
+    $imagenes = $queryBuilder->findAll('imagenes', 'ImagenGaleria');
+} catch (FileException $exception) {
+    // Guardamos los errores en el array de errores
+    $errores[] = $exception->getMessage();
+    //guardo en un array los errores
+} catch (QueryException $exception) {
+    // Guardamos los errores en el array de errores
+    $errores[] = $exception->getMessage();
+    //guardo en un array los errores
+}
 require_once 'views/galeria.view.php';
