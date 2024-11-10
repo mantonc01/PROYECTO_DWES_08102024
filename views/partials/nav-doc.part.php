@@ -18,6 +18,7 @@
         <li class="<?php echo esOpcionMenuActiva("about.php") ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva("about.php") ? '#' : 'about.php'; ?>"><i class="fa fa-bookmark sr-icons"></i> About</a></li>
         <li class="<?php  echo existeOpcionMenuActivaEnArray(['blog', 'single_post']) ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('blog.php') ? '#' : 'blog.php'; ?>"><i class="fa fa-file-text sr-icons"></i> Blog</a></li>
         <li class="<?php  echo esOpcionMenuActiva('contact.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('contact.php') ? '#' : 'contact.php'; ?>"><i class="fa fa-phone-square sr-icons"></i> Contact</a></li>
+        <li class="<?php  echo esOpcionMenuActiva('galeria.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('galeria.php') ? '#' : 'galeria.php'; ?>"><i class="fa fa-image sr-icons"></i> Galería</a></li>
       </ul>
     </div>
   </div>

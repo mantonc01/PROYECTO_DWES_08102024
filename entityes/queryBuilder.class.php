@@ -2,7 +2,8 @@
 
 require_once 'exceptions/queryException.class.php';
 require_once 'views/utils/const.php'; //hay que completarlo
-class QueryBuilder
+// require_once 'entityes/app.class.php';
+abstract class QueryBuilder
 {
 
 
@@ -12,18 +13,35 @@ class QueryBuilder
      */
     private $connection;
 
+    /**
+     * @var string
+     */
+    private $table;
+
+    /**
+     * @var string
+     */
+    private $classEntity;
+
 
     /**
      * @param PDO $connection
      */
-    public function __construct(PDO $connection)
+    // public function __construct(PDO $connection)
+    public function __construct(string $table, string $classEntity)
     {
-        $this->connection = $connection;
+        // $this->connection = $connection;
+        $this->connection = App::getConnection();
+        $this->table = $table;
+        $this->classEntity = $classEntity;
     }
 
-    public function findAll(string $table, string $classEntity)
+    // public function findAll(string $table, string $classEntity)
+    public function findAll(): array
     {
-        $sql = "SELECT * from $table"; //Sentencia SQL a ejecutar
+
+
+        $sql = "SELECT * from $this->table"; //Sentencia SQL a ejecutar
         //Una posibilidad que tenemos para ejecutar esta consulta es 
         //el método query de la clase PDO: 
         //$this->connection->query($sql); 
@@ -36,6 +54,27 @@ class QueryBuilder
             throw new QueryException('No se ha podido ejecutar la consulta');
         }
 
-        return $pdoStatement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $classEntity);
+        return $pdoStatement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->classEntity);
+    }
+
+    public function save(IEntity $entity): void
+    {
+        try {
+            $parameters = $entity->toArray();
+
+            $sql = sprintf('insert into %s (%s) values (%s)',
+                $this->table,
+                implode(', ', array_keys($parameters)),
+                ':' . implode(',:', array_keys($parameters))
+            );
+
+            $statement = $this->connection->prepare($sql);
+            $statement->execute($parameters);
+
+        } catch (PDOException $exception) {
+            // $exception
+            // die($exception->getMessage());            
+            throw new QueryException('Error al insertar en la BD . fallo desde queryBuilder.class');
+        }
     }
 }
