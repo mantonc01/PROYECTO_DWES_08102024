@@ -21,9 +21,7 @@ class Connection
                 $config['options']
 
             );
-        } catch (PDOException $PDOException) {
-            //si activo el die me muestra esto
-            //SQLSTATE[HY000] [1045] Acceso denegado para el usuario 'user'@'localhost' (usando contraseña: YES)
+        } catch (PDOException $PDOException) {                       
             die($PDOException->getMessage());
             //die es una función que muestra el string que se le paso 
             // detiene lo ejecución del script 

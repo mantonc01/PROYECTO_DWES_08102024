@@ -3,15 +3,15 @@ class Asociado
 {
 
     /**
-     * @var string
+     * @var string : guardará el nombre del asociado
      */
     private $nombre;
     /**
-     * @var string
+     * @var string : guarda el nombre de la imagen del logo
      */
     private $logo;
     /**
-     * @var string
+     * @var string : Esta descripción se pondrá en el texto alternativo de la imagen (atributo alt) y en el título de la imagen (atributo title).
      */
     private $descripcion;
 
