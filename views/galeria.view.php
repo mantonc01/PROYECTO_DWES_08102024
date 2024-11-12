@@ -84,7 +84,7 @@
 									title="<?= $imagen->getDescripcion() ?>"
 									width="100px">
 							</td>
-							<td><?= $imagen->getCategoria() ?></td>
+							<td><?=$categorias[$imagen->getCategoria() -1]->getNombre() ?></td>
 							<td><?= $imagen->getNumVisualizaciones() ?></td>
 							<td><?= $imagen->getNumlikes() ?></td>
 							<td><?= $imagen->getNumDownloads() ?></td>

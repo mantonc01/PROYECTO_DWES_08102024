@@ -118,6 +118,7 @@ try {
 } finally {
     // $queryBuilder = new QueryBuilder('imagenes','ImagenGaleria');
     $imagenes = $imagenRepository->findAll();
+    
     $categorias = $categoriaRepository->findAll();
 }
 require_once 'views/galeria.view.php';
