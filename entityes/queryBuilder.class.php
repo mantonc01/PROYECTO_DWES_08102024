@@ -70,12 +70,43 @@ abstract class QueryBuilder
 
             $statement = $this->connection->prepare($sql);
             $statement->execute($parameters);
+            //Si es una imagen lo que estamos isertando en la tabla,
+            //
+            if ($entity instanceof ImagenGaleria) {
+                $this->incrementaNumCategorias($entity->getCategoria());
+            }
+            
 
         } catch (PDOException $exception) {
             // $exception
             die($exception->getMessage());//Prefiero estos mensajes    
-            // throw new QueryException(PDOException->getMessage());
+            // throw new QueryException($exception->getMessage());
             // throw new QueryException('Error al insertar en la BD .');
         }
     }
+
+    public function incrementaNumCategorias(int $categoria){
+        try{
+            $this->connection->beginTransaction();
+            $sql= "UPDATE categorias SET numImagenes=numImagenes+1 WHERE id=$categoria";
+            $this->connection->exec($sql);
+            $this->connection->commit();
+        }catch(Exception $exception){
+            $this->connection->rollBack();
+            throw new Exception($exception->getMessage());
+        }
+        
+
+    }
+
+    // public function executeTransaction(callable $fnExecuteQuerys){
+    //     try{
+    //         $this->connection->beginTransaction();
+    //         $fnExecuteQuerys();
+    //     }catch (PDOException $pdoExcepcion){
+    //         $this->connection->rollBack();
+    //         throw new QueryException('No se ha podido realizar la operacion');
+
+    //     }
+    // }
 }
