@@ -41,6 +41,18 @@
 				</div>
 				<div class="form-group">
 					<div class="col-xs-12">
+						<label class="label-control">Categoría</label>
+						<select class="form-control" name="categoria">
+							<?php foreach ($categorias as $categoria): ?>
+								<option value="<?= $categoria->getId() ?>">
+									<?= $categoria->getNombre() ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12">
 						<label class="label-control">Descripcion</label>
 						<textarea class="form-control" name="descripcion"> <?= $descripcion ?></textarea>
 						<button class="pull-right btn btn-lg sr-button">ENVIAR</button>
@@ -51,35 +63,35 @@
 
 			<div class="imagenes_galeria">
 				<!-- /////////////////////////////// -->
-				 <!-- Esta parte queda pendiente para corregir el poder traernos las imágenes -->
+				<!-- Esta parte queda pendiente para corregir el poder traernos las imágenes -->
 				<!-- <--Pegamos aquí el código de la tabla bootstrap->  -->
-				<table class="table"> 
-					<thead> 
-						<tr> 
-							<th scope="col">#</th> 
-							<th scope="col">Imagen</th> 
-							<th scope="col">Visualizaciones</th> 
-							<th scope="col">Likes</th> 
-							<th scope="col">Descargas</th> 
-						</tr> 
-					</thead> 
-					<?php foreach ($imagenes as $imagen):?> 
-						<tr> 
-							<th scope="row"><?=$imagen->getId()?></th> 
-							<td> 
-								<img src="<?=$imagen->getUrlGallery() ?>" 
-								alt="<?=$imagen->getDescripcion() ?>" 
-								title="<?=$imagen->getDescripcion() ?>" 
-								width="100px"
-								>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Imagen</th>
+							<th scope="col">Visualizaciones</th>
+							<th scope="col">Likes</th>
+							<th scope="col">Descargas</th>
+						</tr>
+					</thead>
+					<?php foreach ($imagenes as $imagen): ?>
+						<tr>
+							<th scope="row"><?= $imagen->getId() ?></th>
+							<td>
+								<img src="<?= $imagen->getUrlGallery() ?>"
+									alt="<?= $imagen->getDescripcion() ?>"
+									title="<?= $imagen->getDescripcion() ?>"
+									width="100px">
 							</td>
-							<td><?=$imagen->getNumVisualizaciones()?></td> 
-							<td><?=$imagen->getNumlikes()?></td> 
-							<td><?=$imagen->getNumDownloads()?></td> 
-						</tr> 
-					<?php endforeach; ?> 
-						</tbody> 
-					</table>
+							<td><?= $imagen->getCategoria() ?></td>
+							<td><?= $imagen->getNumVisualizaciones() ?></td>
+							<td><?= $imagen->getNumlikes() ?></td>
+							<td><?= $imagen->getNumDownloads() ?></td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
 				<!-- ///////////////////////////////// -->
 
 			</div>

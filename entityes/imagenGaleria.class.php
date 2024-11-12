@@ -33,12 +33,18 @@ class ImagenGaleria implements IEntity
      */
     private $id;
 
+    /**
+     * @var int
+     */
+    private $categoria;
 
 
-    public function __construct(string $nombre='', string $descripcion='', int $numVisualizaciones = 0, int $numLikes = 0, int $numDownloads = 0)
+
+    public function __construct(string $nombre='', string $descripcion='', int $categoria=0, int $numVisualizaciones = 0, int $numLikes = 0, int $numDownloads = 0)
     { //se le pasa el nombre y la descripción, el resto por defecto es 0
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
+        $this->categoria=$categoria;
         $this->numVisualizaciones = $numVisualizaciones;
         $this->numLikes = $numLikes;
         $this->numDownloads = $numDownloads;
@@ -209,10 +215,35 @@ class ImagenGaleria implements IEntity
         return[
             'id'=>$this->getId(),
             'nombre'=>$this->getNombre(),
+            'categoria'=>$this->getCategoria(),
             'descripcion'=>$this->getDescripcion(),
             'numVisualizaciones'=>$this->getNumVisualizaciones(),
             'numLikes'=>$this->getNumLikes(),
             'numDownloads'=>$this->getNumDownloads()
         ];
+    }
+
+    /**
+     * Get the value of categoria
+     *
+     * @return  int
+     */ 
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set the value of categoria
+     *
+     * @param  int  $categoria
+     *
+     * @return  self
+     */ 
+    public function setCategoria(int $categoria)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
     }
 }

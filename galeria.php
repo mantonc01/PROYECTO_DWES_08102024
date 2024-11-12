@@ -11,6 +11,8 @@ require_once 'entityes/connection.class.php';
 require_once 'entityes/queryBuilder.class.php';
 require_once 'exceptions/appException.clas.php';
 require_once 'repository/imagenGaleriaRepository.class.php';
+require_once 'repository/categoriaRepository.class.php';
+require_once 'entityes/categoria.class.php';
 
 //array para guardar los mensajes de los errores
 $errores = [];
@@ -28,13 +30,17 @@ try {
     // $connection = App::getConnection();
 
     // $queryBuilder=new QueryBuilder('imagenes','ImagenGaleria');
-    $imagenRepository=new ImagenGaleriaRepository();
+    $imagenRepository = new ImagenGaleriaRepository();
+
+    $categoriaRepository = new CategoriaRepository();
 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Sanitizamos la descripción
         $descripcion = trim(htmlspecialchars($_POST['descripcion'] ?? ''));
+
+        $categoria = trim(htmlspecialchars($_POST['categoria'] ?? ''));
 
         // Tipos de archivos permitidos (MIME)
         $tiposAceptados = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
@@ -54,13 +60,13 @@ try {
             throw new FileException('El método copyFile no está implementado en la clase File');
         }
 
-        $imagenGaleria=new ImagenGaleria($imagen->getFileName(),$descripcion);
+        $imagenGaleria = new ImagenGaleria($imagen->getFileName(), $descripcion, $categoria);
         $imagenRepository->save($imagenGaleria);
-        $descripcion=''; // se reinicia la variable para que no aparezca rellena en el formulario
+        $descripcion = ''; // se reinicia la variable para que no aparezca rellena en el formulario
         // Mensaje de éxito
-        $mensaje='imagen guardada.';
+        $mensaje = 'imagen guardada.';
 
-      
+
 
         //Si llega hasta aqui, es que no ha habido errores.
         /////////////////////////////////////////////////////////////
@@ -89,8 +95,6 @@ try {
         //     // echo "Producto".$row
         // }
     }
-
-    
 } catch (FileException $exception) {
     // Guardamos los errores en el array de errores
     $errores[] = $exception->getMessage();
@@ -103,9 +107,17 @@ try {
     // Guardamos los errores en el array de errores
     $errores[] = $exception->getMessage();
     //guardo en un array los errores
-}
-finally{
+} catch (PDOException $exception) {
+    // Guardamos los errores en el array de errores
+    $errores[] = $exception->getMessage();
+    //guardo en un array los errores
+} catch (Exception $exception) {
+    // Guardamos los errores en el array de errores
+    $errores[] = $exception->getMessage();
+    //guardo en un array los errores
+} finally {
     // $queryBuilder = new QueryBuilder('imagenes','ImagenGaleria');
     $imagenes = $imagenRepository->findAll();
+    $categorias = $categoriaRepository->findAll();
 }
 require_once 'views/galeria.view.php';

@@ -73,8 +73,9 @@ abstract class QueryBuilder
 
         } catch (PDOException $exception) {
             // $exception
-            // die($exception->getMessage());            
-            throw new QueryException('Error al insertar en la BD . fallo desde queryBuilder.class');
+            die($exception->getMessage());//Prefiero estos mensajes    
+            // throw new QueryException(PDOException->getMessage());
+            // throw new QueryException('Error al insertar en la BD .');
         }
     }
 }
