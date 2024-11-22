@@ -1,112 +1,240 @@
 <?php
 
-require_once 'exceptions/queryException.class.php';
-require_once 'views/utils/const.php'; //hay que completarlo
-// require_once 'entityes/app.class.php';
+// Importa las clases necesarias
+require_once 'exceptions/queryException.class.php'; // Clase para manejar excepciones personalizadas relacionadas con consultas SQL
+require_once 'views/utils/const.php'; // Archivo de constantes para definir los errores  (falta definirlo)
+
+// Clase abstracta QueryBuilder para interactuar con la base de datos
 abstract class QueryBuilder
 {
-
-
     /**
-     * Clase  QueryBuilder
+     * Conexión a la base de datos
      * @var PDO
      */
     private $connection;
 
     /**
+     * Nombre de la tabla de la base de datos
      * @var string
      */
     private $table;
 
     /**
+     * Nombre de la clase de la entidad asociada
      * @var string
      */
     private $classEntity;
 
-
     /**
-     * @param PDO $connection
+     * Constructor de la clase
+     * @param string $table Nombre de la tabla de la base de datos
+     * @param string $classEntity Nombre de la clase de la entidad asociada
      */
-    // public function __construct(PDO $connection)
     public function __construct(string $table, string $classEntity)
     {
-        // $this->connection = $connection;
+        // Obtiene la conexión a la base de datos desde la clase App
         $this->connection = App::getConnection();
         $this->table = $table;
         $this->classEntity = $classEntity;
     }
 
-    // public function findAll(string $table, string $classEntity)
+    /**
+     * Método para obtener todos los registros de una tabla
+     * @return array Array de objetos de tipo $classEntity
+     * @throws QueryException Si ocurre un error al ejecutar la consulta
+     */
     public function findAll(): array
     {
+        // Construye la consulta SQL para obtener todos los registros de la tabla
+        $sql = "SELECT * FROM $this->table";
 
-
-        $sql = "SELECT * from $this->table"; //Sentencia SQL a ejecutar
-        //Una posibilidad que tenemos para ejecutar esta consulta es 
-        //el método query de la clase PDO: 
-        //$this->connection->query($sql); 
-        //El problema de query es el mismo que el de exec, es vulnerable 
-        //a ataques SOLInyection por lo que mejor vamos a usar prepare 
-        //que me devolvera un pdoStatement
+        // Prepara la consulta utilizando PDO para prevenir inyección SQL
         $pdoStatement = $this->connection->prepare($sql);
-        //una vez que tengo el pdoStatement ya puedo hacer el execute //Como la sentencia SQL no tiene parámetros, no es necesario //pasarle nada al método execute
+
+        // Ejecuta la consulta y verifica si ocurrió un error
         if ($pdoStatement->execute() === false) {
             throw new QueryException('No se ha podido ejecutar la consulta');
         }
 
+        // Devuelve los resultados como una lista de objetos de la clase $classEntity
         return $pdoStatement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->classEntity);
     }
 
+    /**
+     * Método para insertar un nuevo registro en la tabla
+     * @param IEntity $entity Instancia de una clase que implementa IEntity
+     * @throws QueryException Si ocurre un error al insertar en la base de datos
+     */
     public function save(IEntity $entity): void
     {
         try {
+            // Convierte el objeto en un array con las propiedades de la entidad
             $parameters = $entity->toArray();
 
-            $sql = sprintf('insert into %s (%s) values (%s)',
+            // Construye dinámicamente la consulta SQL para insertar el registro
+            $sql = sprintf(
+                'INSERT INTO %s (%s) VALUES (%s)',
                 $this->table,
-                implode(', ', array_keys($parameters)),
-                ':' . implode(',:', array_keys($parameters))
+                implode(', ', array_keys($parameters)), // Nombres de las columnas
+                ':' . implode(',:', array_keys($parameters)) // Placeholders para los valores
             );
 
+            // Prepara la consulta SQL
             $statement = $this->connection->prepare($sql);
+
+            // Ejecuta la consulta con los valores del array
             $statement->execute($parameters);
-            //Si es una imagen lo que estamos isertando en la tabla,
-            //
+
+            // Si la entidad es de tipo ImagenGaleria, incrementa el contador de imágenes en su categoría
             if ($entity instanceof ImagenGaleria) {
                 $this->incrementaNumCategorias($entity->getCategoria());
             }
-            
 
         } catch (PDOException $exception) {
-            // $exception
-            die($exception->getMessage());//Prefiero estos mensajes    
+            // Si ocurre un error, muestra el mensaje del error (o podría lanzarse una excepción personalizada)
+            die($exception->getMessage());
             // throw new QueryException($exception->getMessage());
             // throw new QueryException('Error al insertar en la BD .');
         }
     }
 
-    public function incrementaNumCategorias(int $categoria){
-        try{
+    /**
+     * Incrementa el número de imágenes en una categoría
+     * @param int $categoria ID de la categoría
+     * @throws Exception Si ocurre un error durante la transacción
+     */
+    public function incrementaNumCategorias(int $categoria)
+    {
+        try {
+            // Inicia una transacción
             $this->connection->beginTransaction();
-            $sql= "UPDATE categorias SET numImagenes=numImagenes+1 WHERE id=$categoria";
+
+            // Actualiza el contador de imágenes en la categoría especificada
+            $sql = "UPDATE categorias SET numImagenes = numImagenes + 1 WHERE id = $categoria";
             $this->connection->exec($sql);
+
+            // Confirma la transacción
             $this->connection->commit();
-        }catch(Exception $exception){
+        } catch (Exception $exception) {
+            // Si ocurre un error, revierte la transacción
             $this->connection->rollBack();
             throw new Exception($exception->getMessage());
         }
+    }
+}
+?>
+
+
+
+<?php
+
+// require_once 'exceptions/queryException.class.php';
+// require_once 'views/utils/const.php'; //hay que completarlo
+// require_once 'entityes/app.class.php';
+// abstract class QueryBuilder
+// {
+
+
+//     /**
+//      * Clase  QueryBuilder
+//      * @var PDO
+//      */
+//     private $connection;
+
+//     /**
+//      * @var string
+//      */
+//     private $table;
+
+//     /**
+//      * @var string
+//      */
+//     private $classEntity;
+
+
+//     /**
+//      * @param PDO $connection
+//      */
+//     // public function __construct(PDO $connection)
+//     public function __construct(string $table, string $classEntity)
+//     {
+//         // $this->connection = $connection;
+//         $this->connection = App::getConnection();
+//         $this->table = $table;
+//         $this->classEntity = $classEntity;
+//     }
+
+//     // public function findAll(string $table, string $classEntity)
+//     public function findAll(): array
+//     {
+
+
+//         $sql = "SELECT * from $this->table"; //Sentencia SQL a ejecutar
+//         //Una posibilidad que tenemos para ejecutar esta consulta es 
+//         //el método query de la clase PDO: 
+//         //$this->connection->query($sql); 
+//         //El problema de query es el mismo que el de exec, es vulnerable 
+//         //a ataques SOLInyection por lo que mejor vamos a usar prepare 
+//         //que me devolvera un pdoStatement
+//         $pdoStatement = $this->connection->prepare($sql);
+//         //una vez que tengo el pdoStatement ya puedo hacer el execute //Como la sentencia SQL no tiene parámetros, no es necesario //pasarle nada al método execute
+//         if ($pdoStatement->execute() === false) {
+//             throw new QueryException('No se ha podido ejecutar la consulta');
+//         }
+
+//         return $pdoStatement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->classEntity);
+//     }
+
+//     public function save(IEntity $entity): void
+//     {
+//         try {
+//             $parameters = $entity->toArray();
+
+//             $sql = sprintf('insert into %s (%s) values (%s)',
+//                 $this->table,
+//                 implode(', ', array_keys($parameters)),
+//                 ':' . implode(',:', array_keys($parameters))
+//             );
+
+//             $statement = $this->connection->prepare($sql);
+//             $statement->execute($parameters);
+//             //Si es una imagen lo que estamos isertando en la tabla,
+//             //
+//             if ($entity instanceof ImagenGaleria) {
+//                 $this->incrementaNumCategorias($entity->getCategoria());
+//             }
+            
+
+//         } catch (PDOException $exception) {
+//             // $exception
+//             die($exception->getMessage());//Prefiero estos mensajes    
+//             // throw new QueryException($exception->getMessage());
+//             // throw new QueryException('Error al insertar en la BD .');
+//         }
+//     }
+
+//     public function incrementaNumCategorias(int $categoria){
+//         try{
+//             $this->connection->beginTransaction();
+//             $sql= "UPDATE categorias SET numImagenes=numImagenes+1 WHERE id=$categoria";
+//             $this->connection->exec($sql);
+//             $this->connection->commit();
+//         }catch(Exception $exception){
+//             $this->connection->rollBack();
+//             throw new Exception($exception->getMessage());
+//         }
         
 
-    }
+//     }
 
-    // public function executeTransaction(callable $fnExecuteQuerys){
-    //     try{
-    //         $this->connection->beginTransaction();
-    //         $fnExecuteQuerys();
-    //     }catch (PDOException $pdoExcepcion){
-    //         $this->connection->rollBack();
-    //         throw new QueryException('No se ha podido realizar la operacion');
+//     // public function executeTransaction(callable $fnExecuteQuerys){
+//     //     try{
+//     //         $this->connection->beginTransaction();
+//     //         $fnExecuteQuerys();
+//     //     }catch (PDOException $pdoExcepcion){
+//     //         $this->connection->rollBack();
+//     //         throw new QueryException('No se ha podido realizar la operacion');
 
-    //     }
-    // }
-}
+//     //     }
+//     // }
+// }

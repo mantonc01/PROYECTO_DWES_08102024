@@ -6,22 +6,7 @@ require_once 'views/utils/utils.php';
 require_once 'entityes/imagenGaleria.class.php';
 include_once 'entityes/asociado.class.php';
 
-// Inicializa un array vacío donde se almacenarán las instancias de imágenes.
-$ImagenesGaleria = [];
 
-// Genera 12 instancias de la clase imagenGaleria.
-for ($i = 1; $i <= 12; $i++) {
-    // Para cada iteración, crea un objeto de imagenGaleria con:
-    // - Un nombre de archivo en formato 'n.jpg', donde 'n' es el número de iteración.
-    // - Una descripción única concatenando el número de iteración.
-    // - Un número aleatorio de visualizaciones entre 0 y 1000.
-    // - Un número aleatorio de "me gusta" entre 0 y 500.
-    // - Un número aleatorio de descargas entre 0 y 100.
-    $ImagenG = new imagenGaleria($i . '.jpg', 'descripcion imagen ' . $i, rand(0, 1000), rand(0, 500), rand(0, 100));
-
-    // Agrega el objeto de imagenGaleria creado al array $ImagenesGaleria.
-    array_push($ImagenesGaleria, $ImagenG);
-}
 
 // Definimos un array de objetos Asociado
 $asociados = [

@@ -63,13 +63,14 @@
 
 			<div class="imagenes_galeria">
 				<!-- /////////////////////////////// -->
-				<!-- Esta parte queda pendiente para corregir el poder traernos las imágenes -->
+				<!-- Nos traemos las imágenes que están definidas en la BD -->
 				<!-- <--Pegamos aquí el código de la tabla bootstrap->  -->
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col">Id</th>
 							<th scope="col">Imagen</th>
+							<th scope="col">Categoría</th>
 							<th scope="col">Visualizaciones</th>
 							<th scope="col">Likes</th>
 							<th scope="col">Descargas</th>
@@ -84,7 +85,7 @@
 									title="<?= $imagen->getDescripcion() ?>"
 									width="100px">
 							</td>
-							<td><?=$categorias[$imagen->getCategoria() -1]->getNombre() ?></td>
+							<td><?= $categorias[$imagen->getCategoria() - 1]->getNombre() ?></td>
 							<td><?= $imagen->getNumVisualizaciones() ?></td>
 							<td><?= $imagen->getNumlikes() ?></td>
 							<td><?= $imagen->getNumDownloads() ?></td>

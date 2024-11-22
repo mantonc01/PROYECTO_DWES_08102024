@@ -247,10 +247,4 @@ class ImagenGaleria implements IEntity
         return $this;
     }
 
-    // public function guarda(ImagenGaleria $imagenGaleria){
-    //     $fnGuardaImagen=function()use ($imagenGaleria){
-    //         $this->save($imagenGaleria);
-    //     };
-    //     $this->executeTransaction($fnGuardaImagen);
-    // }
 }
