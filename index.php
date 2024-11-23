@@ -8,18 +8,7 @@ include_once 'entityes/asociado.class.php';
 
 
 
-// Definimos un array de objetos Asociado
-$asociados = [
-    new Asociado('1 José Andrés', 'log2.jpg', 'Descripción del primer asociado'),
-    new Asociado('2 Luís Domingo', 'log1.jpg', 'Descripción del segundo asociado'),
-    new Asociado('3 Juan José', 'log3.jpg', 'Descripción del tercer asociado'),
-    new Asociado('4 Claudia Shiffer', 'log2.jpg', 'Descripción del cuarto asociado'),
-    new Asociado('5 José Mota', 'log1.jpg', 'Descripción del quinto asociado')
-    // Para agregar más asociados aquí
-];
 
-// Usamos la función de utils para obtener tres asociados aleatorios
-$asociadosAMostrar = obtenerTresElementosAleatorios($asociados);
 
 
 

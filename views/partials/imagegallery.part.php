@@ -13,7 +13,7 @@ include_once 'views/utils/process.img.php';
 $arrayCreado = [];
 
 ///////////////////////////////////////////
-// Recorremos el array $ImagenesGaleria con un foreach para generar un bloque HTML para cada imagen.
+// Recorremos el array $imagenes con un foreach para generar un bloque HTML para cada imagen.
   foreach ($imagenes as $imagen) {
 
   // Definimos el HTML de cada imagen usando HEREDOC para mejorar la legibilidad de la plantilla.

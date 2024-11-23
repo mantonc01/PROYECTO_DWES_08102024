@@ -3,18 +3,16 @@
 // Se incluyen archivos necesarios para el funcionamiento de la aplicación.
 require_once 'views/utils/utils.php'; // Utilidades generales.
 require_once 'entityes/file.class.php'; // Clase para manejar archivos.
-require_once 'entityes/imagenGaleria.class.php'; // Clase específica de imágenes de la galería.
 require_once 'entityes/connection.class.php'; // Clase para gestionar la conexión a la base de datos.
 require_once 'entityes/queryBuilder.class.php'; // Clase para construir consultas SQL.
 require_once 'exceptions/appException.clas.php'; // Clase para manejar excepciones específicas de la aplicación.
-require_once 'repository/imagenGaleriaRepository.class.php'; // Repositorio para manejar datos de imágenes.
-require_once 'repository/categoriaRepository.class.php'; // Repositorio para manejar categorías.
-require_once 'entityes/categoria.class.php'; // Clase para gestionar categorías.
+//////////////////////23/11/2024///////////////////
+require_once 'entityes/asociado.class.php';// Clase para gestionar asociados.
+require_once 'repository/asociadoRepository.class.php';// Repositorio para manejar asociados.
 
-
-// Declaración de variables iniciales para almacenar errores, descripción de imágenes y mensajes.
+// Declaración de variables iniciales para almacenar errores, descripción  y mensajes.
 $errores = []; // Array para guardar mensajes de error.
-$descripcion = ''; // Variable para almacenar la descripción de la imagen.
+$descripcion = ''; // Variable para almacenar la descripción del asociado.
 $mensaje = ''; // Variable para almacenar mensajes de éxito.
 
 try {
@@ -25,42 +23,43 @@ try {
     App::bind('config', $config);
 
     // Creación de los repositorios necesarios para interactuar con la base de datos.
-    $imagenRepository = new ImagenGaleriaRepository(); // Repositorio para imágenes.
-    $categoriaRepository = new CategoriaRepository(); // Repositorio para categorías.
     
+    $asociadoRepository = new AsociadoRepository();// Repositorio para asociados.
+   
     // Se verifica si la solicitud es del tipo POST, lo que indica que el formulario ha sido enviado.
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        // Sanitización de la categoría seleccionada por el usuario.
+        $nombre = trim(htmlspecialchars($_POST['nombre'] ?? ''));
+
 
         // Sanitización de la descripción proporcionada por el usuario para evitar inyección de código.
         $descripcion = trim(htmlspecialchars($_POST['descripcion'] ?? ''));
 
-        // Sanitización de la categoría seleccionada por el usuario.
-        $categoria = trim(htmlspecialchars($_POST['categoria'] ?? ''));
-
+        
         // Definición de los tipos MIME aceptados para los archivos subidos (imágenes en este caso).
         $tiposAceptados = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
 
         // Creación de una instancia de la clase File para manejar el archivo subido.
-        // El parámetro 'imagen' se refiere al nombre del campo del formulario.
-        $imagen = new File('imagen', $tiposAceptados);
+        // El parámetro 'logo' se refiere al nombre del campo del formulario.
+        $imagen = new File('logo', $tiposAceptados);
 
-        // Se guarda el archivo subido en la ruta especificada para la galería.
-        $imagen->saveUploadFile(ImagenGaleria::RUTA_IMAGENES_GALLERY);
+        // Se guarda el archivo subido en la ruta especificada para los logos.
+        $imagen->saveUploadFile(Asociado::RUTA_IMAGENES_LOGO);
+        
 
-        // Se copia el archivo a la carpeta de portfolio.
-        $imagen->copyFile(ImagenGaleria::RUTA_IMAGENES_GALLERY, ImagenGaleria::RUTA_IMAGENES_PORTFOLIO);
+        // Creación de un objeto `Asociado` con los datos proporcionados (nombre, nombre imagen y descripción).
+        $asociado = new Asociado($nombre, $imagen->getFileName(), $descripcion);
 
-        // Creación de un objeto `ImagenGaleria` con los datos proporcionados (nombre del archivo, descripción y categoría).
-        $imagenGaleria = new ImagenGaleria($imagen->getFileName(), $descripcion, $categoria);
+        // Se guarda el asociado en el repositorio (base de datos).
+        $asociadoRepository->save($asociado);
 
-        // Se guarda la imagen en el repositorio (base de datos).
-        $imagenRepository->save($imagenGaleria);
-
-        // Limpieza de la variable descripción para que no aparezca rellenada tras enviar el formulario.
+        // Limpieza de la variable descripción y nombre para que no aparezcan rellenadas tras enviar el formulario.
         $descripcion = '';
+        $nombre='';
 
-        // Mensaje de éxito que indica que la imagen se guardó correctamente.
-        $mensaje = 'imagen guardada.';
+        // Mensaje de éxito que indica que el asociados se guardó correctamente.
+        $mensaje = 'asociado guardado.';
     }
 } catch (FileException $exception) {
     // Se captura cualquier excepción relacionada con la gestión de archivos y se añade al array de errores.
@@ -78,8 +77,6 @@ try {
     // Se captura cualquier otra excepción genérica y se añade al array de errores.
     $errores[] = $exception->getMessage();
 } finally {
-    // Finalmente, sin importar si ocurrió un error, se obtienen las imágenes y las categorías desde los repositorios.
-
-    $imagenes = $imagenRepository->findAll(); // Se recuperan todas las imágenes de la base de datos.
-    $categorias = $categoriaRepository->findAll(); // Se recuperan todas las categorías de la base de datos.
+    // Finalmente, sin importar si ocurrió un error, se obtienen los asociados desde los repositorios.    
+    $asociados = $asociadoRepository->findAll();//Se recuperan todos los asociados de la base de datos.
 }

@@ -1,6 +1,8 @@
 <?php
-class Asociado
+require_once 'entityes/iEntity.class.php';
+class Asociado implements IEntity
 {
+    const RUTA_IMAGENES_LOGO = 'images/index/logo/';
 
     /**
      * @var string : guardará el nombre del asociado
@@ -15,6 +17,12 @@ class Asociado
      */
     private $descripcion;
 
+    /**
+     * @var int
+     */
+    private $id;
+
+
 
 
 
@@ -23,8 +31,16 @@ class Asociado
         $this->nombre = $nombre;
         $this->logo = $logo;
         $this->descripcion = $descripcion;
+        $this->id=null;
     }
 
+    /**
+     * ruta de la imagen para incrustar, en logo
+     */
+    public function getUrlLogo(): string
+    {
+        return self::RUTA_IMAGENES_LOGO . $this->getLogo();
+    }
 
 
 
@@ -96,6 +112,40 @@ class Asociado
     public function setDescripcion(string $descripcion)
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [  
+            'id'=>$this->getId(),          
+            'nombre' => $this->getNombre(),
+            'logo' => $this->getLogo(),
+            'descripcion'=> $this->getDescripcion()
+        ];
+    }
+
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */ 
+    public function setId(int $id)
+    {
+        $this->id = $id;
 
         return $this;
     }

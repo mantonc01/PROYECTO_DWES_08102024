@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '../../../entityes/asociado.class.php';
+include_once 'views/utils/process.asociado.php';
 ?>
 <div class="last-box row">
     <div class="col-xs-12 col-sm-4 col-sm-push-4 last-block">
@@ -11,23 +12,15 @@ include_once __DIR__ . '../../../entityes/asociado.class.php';
             <h4>Our Main Partners</h4>
             <hr>
             <div class="text-muted text-left">
-                <?php foreach ($asociadosAMostrar as $asociado): ?>
+                <?php foreach ($asociados as $asociado): ?>
                     <ul class="list-inline">
                         <li>
-                            <img src="images/index/<?php echo $asociado->getLogo(); ?>" alt="<?php echo $asociado->getDescripcion(); ?>"
+                            <img src="images/index/logo/<?php echo $asociado->getLogo(); ?>" alt="<?php echo $asociado->getDescripcion(); ?>"
                                 title="<?php echo $asociado->getDescripcion(); ?>">
                         </li>
                         <li><?php echo $asociado->getNombre(); ?></li>
                     </ul>
-                <?php endforeach; ?>
-            <!-- <ul class="list-inline">
-              <li><img src="images/index/log1.jpg" alt="logo"></li>
-              <li>Second Partner Name</li>
-            </ul>
-            <ul class="list-inline">
-              <li><img src="images/index/log3.jpg" alt="logo"></li>
-              <li>Third Partner Name</li>
-            </ul> -->
+                <?php endforeach; ?>            
             </div>
         </div>
     </div>
