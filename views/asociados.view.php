@@ -32,11 +32,22 @@
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
+			<!-- 23/11/2024 agregado para mostrar mensajes de alerta -->
+			<?php if (!empty($datos)) : ?>
+				<div class="<?php echo $nombreDiv ?>">
+					<ul>
+						<?php foreach ($datos as $dat) : ?>
+							<li><?php echo $dat; ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php endif; ?>
+			<!--23/11/2024  -->
 			<form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?= $_SERVER['PHP_SELF'] ?>">
 				<div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-control">Nombre</label>
-						<input class="form-control" type="text" name="nombre">						
+						<input class="form-control" type="text" name="nombre">
 					</div>
 				</div>
 				<div class="form-group">

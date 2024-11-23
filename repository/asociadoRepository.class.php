@@ -1,7 +1,7 @@
 <?php 
 
 // Definimos la clase CategoriaRepository que extiende de QueryBuilder.
-// Esta clase se utiliza para gestionar las operaciones específicas de la entidad "Categoria".
+// Esta clase se utiliza para gestionar las operaciones específicas de la entidad "Asociado".
 class AsociadoRepository extends QueryBuilder
 {
     /**

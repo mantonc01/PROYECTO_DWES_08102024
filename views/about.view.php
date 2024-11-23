@@ -1,7 +1,7 @@
-<?php include __DIR__.'/partials/inicio-doc.part.php'?>
+<?php include_once 'views/partials/inicio-doc.part.php'?>
 
 <!-- Navigation Bar -->
-<?php include __DIR__.'/partials/nav-doc.part.php'?>
+<?php include_once 'views/partials/nav-doc.part.php'?>
    
 <!-- End of Navigation Bar -->  
 
@@ -169,4 +169,4 @@
          <p>Photography Fanatic Template &copy; 2017</p>
      </div>
    </footer>
-   <?php include __DIR__.'/partials/fin-doc.part.php'?>
+   <?php include_once 'views/partials/fin-doc.part.php'?>

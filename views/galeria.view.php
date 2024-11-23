@@ -1,7 +1,7 @@
-<?php include_once __DIR__ . '/partials/inicio-doc.part.php' ?>
+<?php include_once 'views/partials/inicio-doc.part.php' ?>
 
 <!-- Navigation Bar -->
-<?php include_once __DIR__ . '/partials/nav-doc.part.php' ?>
+<?php include_once 'views/partials/nav-doc.part.php' ?>
 
 <!-- End of Navigation Bar -->
 
