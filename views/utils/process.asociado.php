@@ -13,7 +13,7 @@ require_once 'repository/asociadoRepository.class.php'; // Repositorio para mane
 // Declaración de variables iniciales para almacenar errores, descripción  y mensajes.
 $errores = []; // Array para guardar mensajes de error.
 $descripcion = ''; // Variable para almacenar la descripción del asociado.
-$mensaje = ''; // Variable para almacenar mensajes de éxito.
+$mensaje = 'Asociado no guardado.'; // Variable para almacenar mensajes de éxito.
 $nombreDiv = "alert alert-danger"; // Clase CSS predeterminada para mensajes de error.
 $datos = []; // Array para almacenar datos no válidos o mensajes de error.
 $datosValidos = []; // Array para almacenar datos que pasaron la validación.
@@ -34,7 +34,7 @@ try {
 
         $validacion = true; // Inicializamos la validación como válida.
 
-        // Sanitización de la categoría seleccionada por el usuario.
+        // Sanitización del nombre del usuario.
         $nombre = trim(htmlspecialchars($_POST['nombre'] ?? ''));
 
         // Sanitización de la descripción proporcionada por el usuario para evitar inyección de código.
@@ -47,7 +47,7 @@ try {
             // $errores[] = 'El campo Nombre no puede estar vacío.';
             $validacion = false;
         } else {
-            $datosValidos[] = "First Name: " . $nombre;
+            $datosValidos[] = "Nombre: " . $nombre;
         }
 
         // 2. Validar el campo "descripcion".
@@ -64,7 +64,20 @@ try {
 
         // Creación de una instancia de la clase File para manejar el archivo subido.
         // El parámetro 'logo' se refiere al nombre del campo del formulario.
-        $imagen = new File('logo', $tiposAceptados);
+        try {
+            $imagen = new File('logo', $tiposAceptados); // Intentamos crear la instancia.
+        } catch (FileException $exception) {
+            $errores[] = "Error en el archivo subido: " . $exception->getMessage();
+            $validacion = false;
+        }
+
+        // 3. Validación adicional para asegurar que se subió una imagen.
+        if (!$imagen->isValid()) {
+            $datos[] = 'Debe seleccionar una imagen válida.'; // Mensaje de error.
+            $validacion = false;
+        } else {
+            $datosValidos[] = "Imagen válida seleccionada.";
+        }
 
         // Si la validación es exitosa, procedemos a guardar los datos.
         if ($validacion) {
@@ -87,7 +100,6 @@ try {
             // Mensaje de éxito que indica que el asociados se guardó correctamente.
             $mensaje = 'Asociado guardado.';
         }
-        
     }
 } catch (FileException $exception) {
     // Se captura cualquier excepción relacionada con la gestión de archivos y se añade al array de errores.

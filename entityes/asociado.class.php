@@ -13,26 +13,32 @@ class Asociado implements IEntity
      */
     private $logo;
     /**
-     * @var string : Esta descripción se pondrá en el texto alternativo de la imagen (atributo alt) y en el título de la imagen (atributo title).
+     * @var string : Descripción de la empresa o asociado. .
      */
     private $descripcion;
 
     /**
-     * @var int
+     * @var int : Id que obtiene de la BD, se inicia a null.
      */
     private $id;
 
-
-
-
-
+    /**
+     * Constructor de Asociado class. Inicializa el objeto con valores por defecto.
+     *
+     * @param string $nombre Nombre del asociado. Valor por defecto vacio.
+     * @param string $logo Nombre del logo. Valor por defecto vacio.
+     * @param string $descripcion Descripcion del asociado. Valor por defecto vacio.
+     *
+     * @return void
+     */
     public function __construct(string $nombre = '', string $logo = '', string $descripcion = '')
     { //valores pasados por defecto
         $this->nombre = $nombre;
         $this->logo = $logo;
         $this->descripcion = $descripcion;
-        $this->id=null;
+        $this->id = null;
     }
+
 
     /**
      * ruta de la imagen para incrustar, en logo
@@ -41,8 +47,7 @@ class Asociado implements IEntity
     {
         return self::RUTA_IMAGENES_LOGO . $this->getLogo();
     }
-
-
+    
 
     /**
      * Get the value of nombre
@@ -116,21 +121,11 @@ class Asociado implements IEntity
         return $this;
     }
 
-    public function toArray(): array
-    {
-        return [  
-            'id'=>$this->getId(),          
-            'nombre' => $this->getNombre(),
-            'logo' => $this->getLogo(),
-            'descripcion'=> $this->getDescripcion()
-        ];
-    }
-
     /**
      * Get the value of id
      *
      * @return  int
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -142,11 +137,27 @@ class Asociado implements IEntity
      * @param  int  $id
      *
      * @return  self
-     */ 
+     */
     public function setId(int $id)
     {
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Convierte el objeto `Asociado` en un array asociativo.
+     * Este método es requerido por la interfaz `IEntity`.
+     *
+     * @return array Array con las propiedades de la categoría.
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(), // ID único del asociado.
+            'nombre' => $this->getNombre(), // Nombre del asociado.
+            'logo' => $this->getLogo(), // Logo del asociado.
+            'descripcion' => $this->getDescripcion() // Descripción del asociado.
+        ];
     }
 }

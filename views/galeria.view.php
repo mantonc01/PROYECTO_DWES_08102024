@@ -85,6 +85,8 @@
 									title="<?= $imagen->getDescripcion() ?>"
 									width="100px">
 							</td>
+							<!-- muestra la categoria/nombre del array categorías (0,1,2),  -->
+							<!-- y por eso se le resta 1 a la posición getCategoría (1,2,3) -->
 							<td><?= $categorias[$imagen->getCategoria() - 1]->getNombre() ?></td>
 							<td><?= $imagen->getNumVisualizaciones() ?></td>
 							<td><?= $imagen->getNumlikes() ?></td>

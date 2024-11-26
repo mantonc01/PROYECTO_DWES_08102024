@@ -1,125 +1,136 @@
 <?php
-//probar con esta dirección
-// require_once __DIR__ . 'exceptions/fileException.class.php';
-//o con esta
-// require_once __DIR__ . '/../../exceptions/fileException.class.php';
 
-//este require se ejecuta solo iniciando desde galeria.php
-require_once __DIR__ . '../../exceptions/fileException.class.php';
+require_once 'exceptions/fileException.class.php';
+
+/**
+ * Clase `File`
+ * Maneja archivos subidos mediante formularios, verificando su validez,
+ * moviéndolos a directorios específicos y permitiendo operaciones como copiar a otra ubicación.
+ */
 class File
 {
-    private $file;
-    private $fileName;
+    private $file; // Datos del archivo subido desde `$_FILES`.
+    private $fileName; // Nombre del archivo procesado.
+    private $allowedTypes; // Tipos MIME permitidos.
 
-
+    /**
+     * Constructor.
+     * Inicializa un objeto `File` validando el archivo subido y su tipo MIME.
+     *
+     * @param string $fileName Nombre del campo en el formulario (`name`).
+     * @param array $arrTypes Tipos MIME permitidos.
+     * @throws FileException Si el archivo no es válido.
+     */
     public function __construct(string $fileName, array $arrTypes)
     {
-        //con $fileName obtendremos el fichero mediante el array $ FILES que contiene 
-        //todos los ficheros que se suben al servidor mediante un formulario. 
-        $this->file = $_FILES[$fileName];
-        // $this->file = $_FILES[$fileName] ?? null; // Usamos el operador null-coalesce para mayor seguridad
+        $this->file = $_FILES[$fileName] ?? null; // Usamos null-coalesce para evitar errores si no existe el campo.
         $this->fileName = '';
+        $this->allowedTypes = $arrTypes;
 
-        //Comprobamos que es array contiene el fichero 
+        // Validar si el archivo fue enviado en el formulario.
         if (!isset($this->file)) {
-            //Mostrar un error
-            throw new FileException('Debes seleccionar un fichero');
-        }
-
-        //Verificamos si ha habido algún error durante la subida del fichero 
-        if ($this->file['error'] !== UPLOAD_ERR_OK) {
-            //Dentro del if verificamos de que tipo ha sido el error 
-            switch ($this->file['error']) {
-                case UPLOAD_ERR_INI_SIZE:
-                case UPLOAD_ERR_FORM_SIZE:
-                    //Algún problema con el tamaño del fichero 
-                    throw new FileException('El fichero es demasiado grande');
-                    break;
-
-                case UPLOAD_ERR_PARTIAL:
-                    //Error en la transferencia subida incompleta 
-                    throw new FileException('No se ha podido subir el fichero completo');
-                    break;
-
-                default:
-                    //Error en la subida del fichero
-                    throw new FileException('No se ha podido subir el fichero');
-                    break;
-            }
-        }
-
-        //Comprobamos si el fichero subido es de un tipo de los que tenemos soportados 
-        // Comprobamos si el tipo de archivo está en la lista de tipos permitidos
-        if (!in_array($this->file['type'], $arrTypes, true)) {
-            throw new FileException('Tipo de fichero no soportado');
+            throw new FileException('Debes seleccionar un fichero.');
         }
     }
 
-    // Método para obtener el nombre del archivo
+    /**
+     * Verifica si el archivo subido es válido.
+     *
+     * @return bool Retorna true si el archivo es válido, de lo contrario, false.
+     */
+    public function isValid(): bool
+    {
+        // Verificar si el archivo tiene errores en la subida.
+        if ($this->file['error'] !== UPLOAD_ERR_OK) {
+            return false;
+        }
+
+        // Verificar si el tipo MIME del archivo es válido.
+        if (!in_array($this->file['type'], $this->allowedTypes, true)) {
+            return false;
+        }
+
+        // Verificar si el archivo tiene un tamaño válido.
+        if ($this->file['size'] <= 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Obtiene el nombre del archivo.
+     *
+     * @return string Nombre del archivo procesado.
+     */
     public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    // Método para guardar el archivo en la ruta destino especificada
+    /**
+     * Guarda el archivo subido en la ubicación especificada.
+     *
+     * @param string $rutaDestino Directorio donde se guardará el archivo.
+     * @throws FileException Si el archivo no es válido o no se puede mover.
+     */
     public function saveUploadFile(string $rutaDestino)
     {
-        //Compruebo que el fichero temporal con el que vamos o trabajar se 
-        //haya subido previamente par petición Post 
-        // Verificamos que el archivo se haya subido mediante un formulario
-        if (!is_uploaded_file($this->file['tmp_name'])) {
-            throw new FileException('El archivo no se ha subido mediante el formulario');
+        // Verificar que el archivo es válido antes de intentar guardarlo.
+        if (!$this->isValid()) {
+            throw new FileException('El archivo no es válido y no se puede guardar.');
         }
 
+        // Verificar que el archivo fue subido mediante un formulario.
+        if (!is_uploaded_file($this->file['tmp_name'])) {
+            throw new FileException('El archivo no se ha subido mediante el formulario.');
+        }
 
-        //Cargamos el nombre del fichero 
-        $this->fileName = $this->file['name']; //nomare original del fichero cuando se subid 
-        $ruta = $rutaDestino . $this->fileName; //concatena la rutadestino con el nombre del fichero 
+        // Obtener el nombre original del archivo.
+        $this->fileName = $this->file['name'];
+        $ruta = $rutaDestino . $this->fileName;
 
-        //Comprabomos que la ruto no se correspondo con un fichero que ya existo 
-        // Comprobamos que el archivo no exista en la ruta destino
-        $contador = 1; //contador para cambio propuesto como hace windows
-        //si existe el archivo en la ruta hago los cambios en su nombre
+        // Evitar sobrescribir archivos existentes.
+        $contador = 1;
         while (is_file($ruta)) {
-            //no sobreescrito, sino que genera uno nuevo añadiendo la fecha y hora actual 
-            //esta parte hay que cambiarla para que si existe el nombre de archivo
-            //genere un nuevo nombre con un numero como hace windows
-            // $fechaActual = date('dmYHis');
-            // $this->fileName = $this->fileName . '_' . $fechaActual;
-            /////////////////////////////////////////////////////////////////////////
-            //parte cambiada según lo propuesto
             $nombreSinExtension = pathinfo($this->file['name'], PATHINFO_FILENAME);
             $extension = pathinfo($this->file['name'], PATHINFO_EXTENSION);
             $this->fileName = $nombreSinExtension . '_' . $contador . '.' . $extension;
-
-            $ruta = $rutaDestino . $this->fileName; //Actualizo la variable ruta con el nueva nombre 
-            $contador++; //contador para agregar al nombre
+            $ruta = $rutaDestino . $this->fileName;
+            $contador++;
         }
 
-        //mueve el fichero subido del directorio temporalíviene definido en php.ini) 
+        // Mover el archivo al destino final.
         if (!move_uploaded_file($this->file['tmp_name'], $ruta)) {
-            //devuelve false si no se ho podido moven 
-            throw new FileException("No se puede mover el fichero a su destino");
+            throw new FileException('No se puede mover el fichero a su destino.');
         }
     }
 
-    // Método para copiar un archivo de una ruta de origen a otra de destino// Método para copiar un archivo de una ruta de origen a otra de destino
+    /**
+     * Copia un archivo desde una ubicación de origen a una ubicación de destino.
+     *
+     * @param string $rutaOrigen Directorio de origen del archivo.
+     * @param string $rutaDestino Directorio de destino.
+     * @throws FileException Si el archivo no existe, ya está en el destino, o no se puede copiar.
+     */
     public function copyFile(string $rutaOrigen, string $rutaDestino)
     {
         $origen = $rutaOrigen . $this->fileName;
         $destino = $rutaDestino . $this->fileName;
 
-        // Comprobamos si el archivo de origen existe
+        // Verificar que el archivo de origen existe.
         if (!is_file($origen)) {
-            throw new FileException("No existe el fichero $origen que intentas copiar");
+            throw new FileException("No existe el fichero $origen que intentas copiar.");
         }
-        // Verificamos si el archivo de destino ya existe
+
+        // Verificar si el archivo ya existe en el destino.
         if (is_file($destino)) {
-            throw new FileException('El fichero $destino ya existe y no se puede sobreeescribilo');
+            throw new FileException("El fichero $destino ya existe y no se puede sobreescribir.");
         }
-        // Intentamos copiar el archivo
+
+        // Intentar copiar el archivo.
         if (!copy($origen, $destino)) {
-            throw new FileException('No se ha podido copiar el fichero $origen a $ destino');
+            throw new FileException("No se ha podido copiar el fichero $origen a $destino.");
         }
     }
 }

@@ -35,11 +35,20 @@ class Contacto implements IEntity
     private $fecha;
 
     /**
-     * @var int
+     * @var int : guardará el id del contacto, se inicia a null
      */
     private $id;
 
-
+    /**
+     * @var string $nombre guardará el nombre del contacto
+     * @var string $apellidos guardará el apellido del contacto
+     * @var string $asunto guardará el asunto del contacto
+     * @var string $email guardará el email del contacto
+     * @var string $texto guardará el texto del contacto
+     * @var string $fecha guardará la fecha del contacto
+     * @var int $id guardará el id del contacto, se inicia a null
+     *  
+     */
     public function __construct(string $nombre = '', string $apellidos = '', string $asunto = '', string $email = '', string $texto = '', string $fecha = '')
     { //valores pasados por defecto
         $this->nombre = $nombre;

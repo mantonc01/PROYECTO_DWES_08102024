@@ -21,7 +21,7 @@
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">x</span>
 					</button>
-					<?php if (empty($errores)): ?>
+					<?php  if (empty($errores)): ?>
 						<p> <?= $mensaje ?></p>
 					<?php else: ?>
 						<ul>

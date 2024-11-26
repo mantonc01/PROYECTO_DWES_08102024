@@ -15,7 +15,7 @@ $arrayCreado = [];
 ///////////////////////////////////////////
 // Recorremos el array $imagenes con un foreach para generar un bloque HTML para cada imagen.
   foreach ($imagenes as $imagen) {
-
+    
   // Definimos el HTML de cada imagen usando HEREDOC para mejorar la legibilidad de la plantilla.
   // Se accede a la información de cada imagen mediante métodos de la clase ImagenGaleria.
   $htmlARepetir = <<<EOD
