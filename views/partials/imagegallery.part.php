@@ -3,8 +3,8 @@
 // Incluimos dos archivos PHP necesarios para el funcionamiento del script.
 // 'imagenGaleria.class.php' contiene la clase ImagenGaleria, que define la estructura y métodos para gestionar las imágenes.
 // 'index.php' se incluye para proporcionar configuraciones adicionales para la página.
-include_once __DIR__ . '../../../entityes/imagenGaleria.class.php';
-include_once __DIR__ . '../../../index.php';
+include_once 'entityes/imagenGaleria.class.php';
+include_once 'index.php';
 
 // obtencion de las imagenenes de la base de datos
 include_once 'views/utils/process.img.php';

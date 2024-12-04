@@ -5,6 +5,8 @@ require_once 'exceptions/appException.clas.php';
 // Se incluye un archivo de constantes (contiene constantes útiles en el sistema)
 require_once 'views/utils/const.php';
 
+require_once 'entityes/connection.class.php';
+
 class App
 {
     /**

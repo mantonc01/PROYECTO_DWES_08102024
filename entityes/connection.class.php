@@ -1,6 +1,6 @@
 <?php
 
-require_once 'entityes/app.class.php'; // Se requiere la clase `App` para obtener la configuración de la base de datos.
+// require_once 'entityes/app.class.php'; // Se requiere la clase `App` para obtener la configuración de la base de datos.
 
 /**
  * Clase `Connection`

@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '../../../entityes/asociado.class.php';
+include_once 'entityes/asociado.class.php';
 include_once 'views/utils/process.asociado.php';
 ?>
 <div class="last-box row">

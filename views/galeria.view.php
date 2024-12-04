@@ -102,4 +102,4 @@
 	</div>
 </div>
 <!-- Principal Content Start -->
-<?php include __DIR__ . '/partials/fin-doc.part.php' ?>
+<?php include_once 'views/partials/fin-doc.part.php' ?>

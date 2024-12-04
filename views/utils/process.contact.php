@@ -19,10 +19,10 @@ $datosValidos = []; // Array para almacenar datos que pasaron la validación.
 
 try {
     // Se obtiene la configuración de la aplicación desde un archivo de configuración.
-    $config = require_once 'app/config.php';
+    // $config = require_once 'app/config.php';
 
-    // Se vincula la configuración a la aplicación utilizando un contenedor de dependencias.
-    App::bind('config', $config);
+    // // Se vincula la configuración a la aplicación utilizando un contenedor de dependencias.
+    // App::bind('config', $config);
 
     // Creación del repositorio necesario para interactuar con la tabla de contactos en la base de datos.
     $contactRepository = new ContactRepository();

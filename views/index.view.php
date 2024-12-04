@@ -43,17 +43,17 @@
 
         <!-- First Category pictures -->                 
         <div id="category1" class="tab-pane active" >
-        <?php include __DIR__.'/partials/imagegallery.part.php'?>
+        <?php include 'views/partials/imagegallery.part.php'?>
         <!-- End of First category pictures -->
 
         <!--second category pictures -->
         <div id="category2" class="tab-pane " >
-        <?php include __DIR__.'/partials/imagegallery.part.php'?>
+        <?php include 'views/partials/imagegallery.part.php'?>
         <!-- End of second category pictures -->
 
         <!-- Third Category Pictures -->
         <div id="category3" class="tab-pane " >
-        <?php include __DIR__.'/partials/imagegallery.part.php'?>
+        <?php include 'views/partials/imagegallery.part.php'?>
         <!-- Third Category Pictures -->
 
         </div>
@@ -76,7 +76,7 @@
     <!-- End of Newsletter form -->  
 
     <!-- Box within partners name and logo -->
-    <?php include __DIR__.'/partials/asociados-doc.part.php'?>      
+    <?php include_once 'views/partials/asociados-doc.part.php'?>      
     <!-- End of Box within partners name and logo -->
 
    </div><!-- End of index box -->
@@ -101,4 +101,4 @@
        </div>
      </div>
    </footer>
-   <?php include __DIR__.'/partials/fin-doc.part.php'?>
+   <?php include_once 'views/partials/fin-doc.part.php'?>

@@ -9,11 +9,16 @@
 function esOpcionMenuActiva(string $opcionMenu): bool
 {
     // Convertimos la opción de menú a minúsculas para hacer una comparación insensible a mayúsculas/minúsculas.
-    $opcionMinuscula = strtolower($opcionMenu);
+    $opcionMinuscula = strtolower($opcionMenu);    
 
     // Obtenemos la URI actual del servidor y la convertimos a minúsculas.
     // $_SERVER['REQUEST_URI'] contiene la parte de la URL después del nombre de dominio.
     $uriMinuscula = strtolower($_SERVER['REQUEST_URI']);
+
+    // Si la opción es solo '/', verificamos si la URI actual también es exactamente '/'.
+    if ($opcionMinuscula === '/') {
+        return $uriMinuscula === '/';
+    }
 
     // Utilizamos strpos para buscar la posición de $opcionMinuscula dentro de $uriMinuscula.
     // Si strpos devuelve un valor distinto de `false`, significa que la opción de menú está presente en la URI.

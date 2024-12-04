@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+#Si el módulo mod_rewrite esta activo en apache ejecuta las siguientes directivas:
+
+    Options -MultiViews
+    #Desactiva la opción MultiViews, que podría causar conflictos en la resolución de URLs. MultiViews permite a Apache seleccionar 
+    #automáticamente el recurso que mejor coincida con la URL solicitada, lo cual no es deseado en este caso.
+
+    RewriteEngine On
+    #Activa el motor de reescritura del módulo mod_rewrite, lo que permite procesar las reglas de reescritura definidas posteriormente.
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # Significado: Define una condición de reescritura. En este caso:
+    # Verifica si el archivo solicitado por la URL (%{REQUEST_FILENAME}) no es un archivo existente en el sistema.
+    # La negación (!) asegura que la regla se aplique solo si el archivo solicitado no está presente.
+    # Contexto: Esto se utiliza para asegurarse de que recursos como imágenes, archivos CSS, o JavaScript existentes 
+    # en el servidor no sean redirigidos.
+
+    Rewriterule ^(.*)$ index.php [QSA,L]
+    # Define una regla de reescritura:
+    # ^(.*)$: Una expresión regular que coincide con cualquier ruta que el cliente proporcione en la URL.
+    # index.php: Todas las rutas que coincidan serán redirigidas al archivo index.php.
+    # [QSA,L]: Indicadores (flags) que definen el comportamiento de la regla:
+    # QSA (Query String Append): Conserva los parámetros de la consulta (query string) original al redirigir.
+    # Por ejemplo, si la URL era example.com/test?user=123, se redirige a index.php?user=123.
+    # L (Last): Detiene el procesamiento de reglas adicionales si esta regla se aplica.
+    
+</IfModule>

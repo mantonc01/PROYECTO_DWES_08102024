@@ -14,12 +14,12 @@
     </div>
     <div class="collapse navbar-collapse navbar-right" id="menu">
       <ul class="nav navbar-nav">
-        <li class="<?php  echo esOpcionMenuActiva('index.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('index.php') ? '#' : 'index.php'; ?>"><i class="fa fa-home sr-icons"></i> Home</a></li>
-        <li class="<?php echo esOpcionMenuActiva("about.php") ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva("about.php") ? '#' : 'about.php'; ?>"><i class="fa fa-bookmark sr-icons"></i> About</a></li>
-        <li class="<?php  echo existeOpcionMenuActivaEnArray(['blog', 'single_post']) ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('blog.php') ? '#' : 'blog.php'; ?>"><i class="fa fa-file-text sr-icons"></i> Blog</a></li>
-        <li class="<?php  echo esOpcionMenuActiva('contact.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('contact.php') ? '#' : 'contact.php'; ?>"><i class="fa fa-phone-square sr-icons"></i> Contact</a></li>
-        <li class="<?php  echo esOpcionMenuActiva('galeria.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('galeria.php') ? '#' : 'galeria.php'; ?>"><i class="fa fa-image sr-icons"></i> Galería</a></li>
-        <li class="<?php  echo esOpcionMenuActiva('asociados.php') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('asociados.php') ? '#' : 'asociados.php'; ?>"><i class="fa fa-hand-o-right sr-icons"></i> Asociados</a></li>
+        <li class="<?php  echo esOpcionMenuActiva('/') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('index.php') ? '#' : '/'; ?>"><i class="fa fa-home sr-icons"></i> Home</a></li>
+        <li class="<?php echo esOpcionMenuActiva("/about") ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva("about.php") ? '#' : '/about'; ?>"><i class="fa fa-bookmark sr-icons"></i> About</a></li>
+        <li class="<?php  echo existeOpcionMenuActivaEnArray(['/blog', '/single_post']) ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('blog.php') ? '#' : '/blog'; ?>"><i class="fa fa-file-text sr-icons"></i> Blog</a></li>
+        <li class="<?php  echo esOpcionMenuActiva('/contact') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('contact.php') ? '#' : '/contact'; ?>"><i class="fa fa-phone-square sr-icons"></i> Contact</a></li>
+        <li class="<?php  echo esOpcionMenuActiva('/galeria') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('galeria.php') ? '#' : '/galeria'; ?>"><i class="fa fa-image sr-icons"></i> Galería</a></li>
+        <li class="<?php  echo esOpcionMenuActiva('/asociados') ? 'active lien' : " lien"; ?>"><a href="<?php echo esOpcionMenuActiva('asociados.php') ? '#' : '/asociados'; ?>"><i class="fa fa-hand-o-right sr-icons"></i> Asociados</a></li>
       </ul>
     </div>
   </div>

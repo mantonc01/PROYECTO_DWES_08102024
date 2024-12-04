@@ -20,10 +20,10 @@ $datosValidos = []; // Array para almacenar datos que pasaron la validación.
 
 try {
     // Se obtiene la configuración de la aplicación desde un archivo de configuración.
-    $config = require_once 'app/config.php';
+    // $config = require_once 'app/config.php';
 
-    // Se vincula la configuración a la aplicación utilizando un contenedor de dependencias.
-    App::bind('config', $config);
+    // // Se vincula la configuración a la aplicación utilizando un contenedor de dependencias.
+    // App::bind('config', $config);
 
     // Creación de los repositorios necesarios para interactuar con la base de datos.
 
