@@ -1,5 +1,8 @@
 <?php 
 require_once 'entityes/app.class.php';
+require_once 'entityes/request.class.php';
+require_once 'entityes/router.class.php';
+require_once 'exceptions/appException.clas.php';
 
 
 // Se obtiene la configuración de la aplicación desde un archivo de configuración.

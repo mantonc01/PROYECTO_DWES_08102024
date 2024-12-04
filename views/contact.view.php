@@ -17,7 +17,8 @@
 			<h1>CONTACT US</h1>
 			<hr>
 			<p>Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-			<form method="post" action="contact.php" class="form-horizontal">
+			<!-- <form method="post" action="contact.php" class="form-horizontal"> -->
+			<form method="post" class="form-horizontal">
 				<?php if (!empty($datos)) : ?>
 					<div class="<?php echo $nombreDiv?>">
 						<ul>
