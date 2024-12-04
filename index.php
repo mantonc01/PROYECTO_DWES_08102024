@@ -10,10 +10,10 @@ require_once 'views/utils/bootstrap.php';
 
 try{
     // require $router->direct(Request::uri());
-    require_once Router::load('views/utils/routes.php')->direct(Request::uri());
+    require_once Router::load('views/utils/routes.php')->direct(Request::uri(),Request::method());
 }catch(Exception $e){
     die($e->getMessage());
-    echo $e->getMessage();
+    // echo $e->getMessage();
 }
 
 
@@ -28,6 +28,6 @@ try{
 //accediendo a través de la uri indicada por el usuario.
 // require_once $routes[$uri];
 
-require_once $routes[Request::uri()];
+// require_once $routes[Request::uri()];
 
 ?>

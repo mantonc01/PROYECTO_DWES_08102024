@@ -4,7 +4,18 @@ class Router
     private $routes;
 
     private function __construct(){
-        $this->routes = [];
+        $this->routes = [
+            'GET'=>[],
+            'POST'=>[]
+        ];
+    }
+
+    public function get(string $uri, string $controllerAction): void{
+        $this->routes['GET'][$uri] = $controllerAction;
+    }
+
+    public function post(string $uri, string $controllerAction): void{
+        $this->routes['POST'][$uri] = $controllerAction;
     }
 
     public static function load(string $file): Router{
@@ -14,7 +25,7 @@ class Router
         return $router;
     }
 
-    
+
 
     public function define(array $tablaRutas): void
     {
@@ -23,12 +34,16 @@ class Router
 
 
 
-    public function direct(string $uri):string
+    public function direct(string $uri,string $method):string
     {
-        if (array_key_exists($uri, $this->routes)) {
-            return $this->routes[$uri];
+        if (array_key_exists($uri, $this->routes[$method])) {
+            return $this->routes[$method][$uri];
         } else {
             throw new Exception('No se ha encontrado la ruta');
         }
+    }
+
+    public function redirect(string $path){
+        header('Location:  /'. $path);       
     }
 }

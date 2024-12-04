@@ -32,8 +32,8 @@
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
-			<!-- <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?= $_SERVER['PHP_SELF'] ?>"> -->
-			<form class="form-horizontal" method="post" enctype="multipart/form-data" >
+			<form class="form-horizontal" method="post" enctype="multipart/form-data" action="imagenes-galeria/nueva">
+			<!-- <form class="form-horizontal" method="post" enctype="multipart/form-data" > -->
 				<div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-control">Imagen</label>
