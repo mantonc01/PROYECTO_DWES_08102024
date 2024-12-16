@@ -6,8 +6,13 @@
 include_once 'entityes/imagenGaleria.class.php';
 include_once 'index.php';
 
+// include_once 'views/utils/utils.php';
+
 // obtencion de las imagenenes de la base de datos
 include_once 'views/utils/process.img.php';
+
+
+
 
 // Creamos un array vacío donde se guardará el HTML de cada imagen generada para la galería.
 $arrayCreado = [];

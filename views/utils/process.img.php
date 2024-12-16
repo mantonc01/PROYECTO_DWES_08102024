@@ -86,4 +86,4 @@ finally {
     $categorias = $categoriaRepository->findAll(); // Se recuperan todas las categorías de la base de datos.
 }
 
-require_once 'views/galeria.view.php'; // Se muestra la vista de la galería con los resultados obtenidos.
+// require_once 'views/galeria.view.php'; // Se muestra la vista de la galería con los resultados obtenidos.

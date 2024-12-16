@@ -1,0 +1,17 @@
+{
+    "name": "mac/dwes",
+    "autoload": {
+        "psr-4": {
+            "Mac\\Dwes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mantonc01",
+            "email": "mantonc01@informatica.iesvalledeljerteplasencia.es"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^3.8"
+    }
+}
