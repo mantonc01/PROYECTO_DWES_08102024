@@ -1,6 +1,6 @@
 <?php
 
-// include_once 'views/utils/process.img.php';
+// include_once 'utils/process.img.php';
 // require_once 'repository/imagenGaleriaRepository.class.php'; // Repositorio para manejar datos de imágenes.
 // $imagenRepository = new ImagenGaleriaRepository(); // Repositorio para imágenes.
 // $imagenes = $imagenRepository->findAll(); // Se recuperan todas las imágenes de la base de datos.

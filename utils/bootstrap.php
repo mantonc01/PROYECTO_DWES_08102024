@@ -11,5 +11,5 @@ $config=require_once 'app/config.php';
 // Se vincula la configuración a la aplicación utilizando un contenedor de dependencias.
 App::bind('config', $config);
 
-$router=Router::load('views/utils/routes.php');
+$router=Router::load('utils/routes.php');
 App::bind('router', $router);

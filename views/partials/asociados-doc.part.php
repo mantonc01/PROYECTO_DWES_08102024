@@ -1,6 +1,6 @@
 <?php
 include_once 'entityes/asociado.class.php';
-include_once 'views/utils/process.asociado.php';
+include_once 'utils/process.asociado.php';
 ?>
 <div class="last-box row">
     <div class="col-xs-12 col-sm-4 col-sm-push-4 last-block">

@@ -6,10 +6,10 @@
 include_once 'entityes/imagenGaleria.class.php';
 include_once 'index.php';
 
-// include_once 'views/utils/utils.php';
+// include_once 'utils/utils.php';
 
 // obtencion de las imagenenes de la base de datos
-include_once 'views/utils/process.img.php';
+include_once 'utils/process.img.php';
 
 
 

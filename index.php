@@ -1,23 +1,23 @@
 <?php
 //para tener siempre cargada la configuración Config php 
 //en todas las peticiones a la base de datos que se realicen.
-require_once 'views/utils/bootstrap.php';
+require_once 'utils/bootstrap.php';
 
 //Cargamos la tabla de rutas asignándola a una variable.
 // $router=new Router();
 
-// require_once 'views/utils/routes.php';
+// require_once 'utils/routes.php';
 
 try{
     // require $router->direct(Request::uri());
-    require_once Router::load('views/utils/routes.php')->direct(Request::uri(),Request::method());
+    require_once Router::load('utils/routes.php')->direct(Request::uri(),Request::method());
 }catch(Exception $e){
     die($e->getMessage());
     // echo $e->getMessage();
 }
 
 
-// $routes = require_once 'views/utils/routes.php';
+// $routes = require_once 'utils/routes.php';
 
 //Obtener la URL del 
 //usuario Limpiado las barras / existentes tanto al principio como al final 

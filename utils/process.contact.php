@@ -1,7 +1,7 @@
 <?php
 
 // Se incluyen archivos necesarios para el funcionamiento de la aplicación.
-require_once 'views/utils/utils.php'; // Utilidades generales.
+require_once 'utils/utils.php'; // Utilidades generales.
 require_once 'entityes/connection.class.php'; // Clase para gestionar la conexión a la base de datos.
 require_once 'entityes/queryBuilder.class.php'; // Clase base para construir consultas SQL.
 require_once 'exceptions/appException.clas.php'; // Clase para manejar excepciones específicas de la aplicación.

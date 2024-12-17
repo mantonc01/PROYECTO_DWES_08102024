@@ -1,7 +1,7 @@
 <?php
 
 // Se incluyen archivos necesarios para el funcionamiento de la aplicación.
-require_once 'views/utils/utils.php'; // Utilidades generales.
+require_once 'utils/utils.php'; // Utilidades generales.
 require_once 'entityes/file.class.php'; // Clase para manejar archivos.
 require_once 'entityes/imagenGaleria.class.php'; // Clase específica de imágenes de la galería.
 require_once 'entityes/connection.class.php'; // Clase para gestionar la conexión a la base de datos.

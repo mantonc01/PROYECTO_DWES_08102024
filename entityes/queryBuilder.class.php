@@ -2,7 +2,7 @@
 
 // Importa las clases necesarias
 require_once 'exceptions/queryException.class.php'; // Clase para manejar excepciones personalizadas relacionadas con consultas SQL
-require_once 'views/utils/const.php'; // Archivo de constantes para definir los errores  (falta definirlo)
+require_once 'utils/const.php'; // Archivo de constantes para definir los errores  (falta definirlo)
 
 // Clase abstracta QueryBuilder para interactuar con la base de datos
 abstract class QueryBuilder
